@@ -1,8 +1,7 @@
 urlfetch
 ========
 
-urlfetch is a fork of original urlfetch project at
-https://code.google.com/p/urlfetch/
+urlfetch is a fork of original urlfetch project [1].
 
 Asynchronous URL Fetch Service
 ==============================
@@ -26,7 +25,7 @@ Requirements
 ------------
 
 In order to run the URL Fetch service, Erlang/OTP R14A or higher is required.
-The pyurlfetch library is compatible with Python 2.5 up to 2.7.
+The pyurlfetch library [1] is compatible with Python 2.5 up to 2.7
 
 Credits
 -------
@@ -38,12 +37,6 @@ The code has been extended by Valentin Kuznetsov to cover the following topics:
 - replace urlfetch_cache implementation with gen_server behavior
 - replace original packaging with rebar (ability to create release distribution)
 
-References
-----------
-
-Original code is available at https://code.google.com/p/urlfetch/
-Rebar build tool can be found at https://github.com/basho/rebar
-
 Installation
 ------------
 
@@ -51,8 +44,8 @@ Installation
 2. tune-up rel/mynode/etc/vm.args (if required)
 3. start-up server as (using bash shell):
 
-   # export PATH=$PWD/rel/urlfetchd/bin:$PATH
-   # urlfetchd console|start|stop
+- # export PATH=$PWD/rel/urlfetchd/bin:$PATH
+- # urlfetchd console|start|stop
 
 The console mode will start the application and gives you access to
 standard Erlang console, while start|stop action will either
@@ -64,3 +57,10 @@ Server configuration:
 The bapp is a standard OTP application [1]. You can adjust server
 parameters in rel/etc/vm.args. The release parameters can be tune-up
 in rel/reltool.config.
+
+References
+----------
+
+1. https://code.google.com/p/urlfetch/
+2. https://github.com/basho/rebar
+3. http://www.erlang.org/doc/design_principles/users_guide.html
