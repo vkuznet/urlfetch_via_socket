@@ -26,6 +26,7 @@ Requirements
 
 In order to run the URL Fetch service, Erlang/OTP R14A or higher is required.
 The pyurlfetch library [1] is compatible with Python 2.5 up to 2.7
+Rebar [2] build tool to build urlfetch.
 
 Credits
 -------
@@ -41,11 +42,13 @@ Installation
 ------------
 
 1. run make
-2. tune-up rel/mynode/etc/vm.args (if required)
-3. start-up server as (using bash shell):
+2. tune rel/urlfetchd/etc/vm.args (if required)
+3. start server:
 
-- # export PATH=$PWD/rel/urlfetchd/bin:$PATH
-- # urlfetchd console|start|stop
+```
+# export PATH=$PWD/rel/urlfetchd/bin:$PATH
+# urlfetchd console|start|stop
+```
 
 The console mode will start the application and gives you access to
 standard Erlang console, while start|stop action will either
