@@ -36,6 +36,8 @@ Copyright and License notice above.
 
 The code has been extended by Valentin Kuznetsov to cover the following topics:
 - replace urlfetch_cache implementation with gen_server behavior
+- separate urlfetch_server_app into application and supervisor components
+- add support of X509 authentication with remove services
 - replace original packaging with rebar (ability to create release distribution)
 
 Installation
