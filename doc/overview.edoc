@@ -1,0 +1,10 @@
+@author Tobias Rodaebel
+@version 1.0
+@title Asynchronous URL Fetch Service
+@reference <a href="http://urlfetch.googlecode.com" target="_blank">Project page</a>
+@doc Asynchronous URL Fetch Service
+
+The urlfetch project aims at providing a URL Fetch Service for web application
+developers to make concurrent asynchronous HTTP/S requests. The service is
+entirely written in Erlang and so, it leverages the robustness and scalability
+of the Erlang Open Telecom Platform.
