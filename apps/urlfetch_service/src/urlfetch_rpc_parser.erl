@@ -1,8 +1,8 @@
 -module(urlfetch_rpc_parser).
-
--include_lib("eunit/include/eunit.hrl").
-
 -export([parse/1]).
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
 
 
 %% Parser for a very simple binary protocol.
@@ -25,7 +25,7 @@ parse(<<CLen:8/unsigned, Command:CLen/binary, Rest/binary>>) ->
 parse(Bin) ->
     {noreply, Bin}.
 
-
+-ifdef(TEST).
 %% Unit tests.
 parse_test() ->
     %% Correct protocol
@@ -41,3 +41,4 @@ parse_test() ->
     ?assert(parse(<<4, "TEST", "foo">>) =:= {request, <<"TEST">>, <<"foo">>}),
     %% Bogus data
     ?assert(parse(<<"foobar">>) =:= {noreply, <<"foobar">>}).
+-endif.
