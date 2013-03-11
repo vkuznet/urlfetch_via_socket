@@ -1,9 +1,8 @@
 -module(urlfetch_http).
-
--include_lib("eunit/include/eunit.hrl").
-
 -export([encode_headers/1, decode_headers/1]).
-
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
 
 encode_headers(Headers) ->
     L = lists:flatmap(
@@ -32,6 +31,7 @@ decode_headers([C|String], Buffer, Result) ->
   decode_headers(String, [C|Buffer], Result).
 
 
+-ifdef(TEST).
 %% Unit tests.
 encode_headers_test() ->
     ?assert(encode_headers([{"Content-Type","text/plain"}]) =:= "Content-Type: text/plain"),
@@ -41,3 +41,4 @@ decode_headers_test() ->
     ?assert(decode_headers(<<"Content-Type: text/plain">>) =:= [{"Content-Type","text/plain"}]),
     ?assert(decode_headers("Content-Type: text/plain") =:= [{"Content-Type","text/plain"}]),
     ?assert(decode_headers("Content-Type: text/plain\nX-Custom-Header: foobar (1)") =:= [{"Content-Type","text/plain"},{"X-Custom-Header","foobar (1)"}]).
+-endif.
