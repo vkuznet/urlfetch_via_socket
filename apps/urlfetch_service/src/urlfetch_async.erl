@@ -65,8 +65,10 @@ fetch(Id, Url, Method, Payload, Headers, Retry, Sleep) when Retry > 0 ->
     process_record(Record),
     case x509_cert() of
         error ->
+            error_logger:info_msg("No X509 authentication~n"),
             HTTPOptions = [];
         {ok, CKEY, CERT} ->
+            error_logger:info_msg("X509 authentication: keyfile=~p, certfile=~p~n", [CKEY, CERT]),
             HTTPOptions = [{ssl,[{keyfile, CKEY}, {certfile, CERT}]}]
     end,
     case httpc:request(Method, Request, HTTPOptions, [{sync, false}, {stream, self}]) of
