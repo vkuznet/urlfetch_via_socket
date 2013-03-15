@@ -37,22 +37,12 @@ purge(Id) ->
 %% Local helpers
 %% ===================================================================
 
-%% @spec x509_cert() -> {ok, KEY, CERT} | error
-%% @doc  Fetches X509_USER_KEY/X509_UESR_CERT environment variables
-%%       or return false
-x509_cert() ->
-    Ckey = os:getenv("X509_USER_KEY"),
-    Cert = os:getenv("X509_USER_CERT"),
-    case {Ckey, Cert} of
-        {false, false} ->
-            error;
-        {false, _} ->
-            error;
-        {_, false} ->
-            error;
-        {_, _} ->
-            {ok, Ckey, Cert}
-    end.
+http_options() ->
+    Ckey   = os:getenv("X509_USER_KEY"),
+    Cert   = os:getenv("X509_USER_CERT"),
+    CAcert = os:getenv("X509_USER_CACERT"),
+    L = [{keyfile, Ckey}, {certfile, Cert}, {cacertfile, CAcert}],
+    [{ssl, lists:filter(fun({_,V}) -> V =/= false end, L)}].
 
 fetch(Id, Url, Method, Payload, Headers, Retry, Sleep) when Retry > 0 ->
     case Method of
@@ -63,15 +53,11 @@ fetch(Id, Url, Method, Payload, Headers, Retry, Sleep) when Retry > 0 ->
     end,
     Record = #cache{id=Id, timestamp=urlfetch_utils:timestamp()},
     process_record(Record),
-    case x509_cert() of
-        error ->
-            error_logger:info_msg("No X509 authentication~n"),
-            HTTPOptions = [];
-        {ok, CKEY, CERT} ->
-            error_logger:info_msg("X509 authentication: keyfile=~p, certfile=~p~n", [CKEY, CERT]),
-            HTTPOptions = [{ssl,[{keyfile, CKEY}, {certfile, CERT}]}]
-    end,
-    case httpc:request(Method, Request, HTTPOptions, [{sync, false}, {stream, self}]) of
+    HTTPOptions = http_options(),
+    Options = [{sync, false}, {stream, self}],
+    error_logger:info_msg("https:request(~p, ~p, ~p, ~p)~n",
+            [Method, Request, HTTPOptions, Options]),
+    case httpc:request(Method, Request, HTTPOptions, Options) of
         {ok, ReqId} ->
             case receive_chunk(Id, ReqId) of
                 {ok, _} ->
