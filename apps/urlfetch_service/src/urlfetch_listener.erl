@@ -82,7 +82,9 @@ code_change(_OldVsn, State, _Extra) ->
 %% listening socket to the new client socket.
 set_sockopt(LSocket, CSocket) ->
     true = inet_db:register_socket(CSocket, inet_tcp),
-    OptionKeys = [active, nodelay, keepalive, delay_send, priority, tos],
+%    OptionKeys = [active, nodelay, keepalive, delay_send, priority, tos],
+%    OptionKeys = [active, nodelay, keepalive],
+    OptionKeys = [],
     case prim_inet:getopts(LSocket, OptionKeys) of
         {ok, Opts} ->
             case prim_inet:setopts(CSocket, Opts) of
